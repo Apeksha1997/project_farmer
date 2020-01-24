@@ -2,6 +2,7 @@ package com.lti.model;
 
 
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,28 +11,41 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TBL_KISAANDETAILSFARMER")
+@Table(name = "DETAILSFARMER")
 public class DetailsFarmer {
 
 	@Id
 	@GeneratedValue
+	@Column(name="farmer_details_id")
 	private int farmerDetailsId;
+	@Column(name="farmer_address_line1")
 	private String farmerAddressLine1;
+	@Column(name="farmer_address_line2")
 	private String farmerAddressLine2;
+	@Column(name="farmer_city")
 	private String farmerCity;
+	@Column(name="farmer_state")
 	private String farmerState;
+	@Column(name="farmer_pincode")
 	private int farmerPinCode;
+	@Column(name="farmer_land_area")
 	private int farmerLandArea;
+	@Column(name="farmer_land_address")
 	private String farmerLandAddress;
+	@Column(name="farmer_land_pincode")
 	private int farmerLandPinCode;
+	@Column(name="farmer_account_no")
 	private int farmerAccountNo;
+	@Column(name="farmer_ifsc_code")
 	private String farmerIFSCCode;
+	@Column(name="farmer_aadhaar")
 	private String farmerAadhaar;
+	@Column(name="farmer_pan")
 	private String farmerPan;
 	private String farmerCertificate;
 	
 	@ManyToOne
-	@JoinColumn(name = "farmerId", unique = true)
+	@JoinColumn(name = "farmer_Id")
 	Farmer farmerDetails;
 
 	public int getFarmerDetailsId() {

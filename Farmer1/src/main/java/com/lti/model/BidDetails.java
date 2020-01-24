@@ -1,4 +1,5 @@
 package com.lti.model;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -7,21 +8,24 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TBL_KISAANBID")
+@Table(name = "BIDDETAILS")
 public class BidDetails {
 
 	@Id
 	@GeneratedValue
+	@Column(name="bid_Id")
 	private int bidId;
+	@Column(name="bid_amount")
 	private int bidAmount;
+	@Column(name="bid_status")
 	private String bidStatus;
 	
 	@ManyToOne
-	@JoinColumn(name = "bidderId")
+	@JoinColumn(name = "bidder_Id")
 	Bidder bidderBid;
 	
 	@ManyToOne
-	@JoinColumn(name = "cropId")
+	@JoinColumn(name = "crop_Id")
 	Crop cropBid;
 
 	public int getBidId() {

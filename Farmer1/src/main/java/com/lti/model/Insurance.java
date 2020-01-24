@@ -4,6 +4,7 @@ package com.lti.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,29 +13,40 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TBL_KISAANINSURANCE")
+@Table(name = "INSURANCE")
 public class Insurance {
 
 	@Id
 	@GeneratedValue
+	@Column(name="insurance_id")
 	private int insuranceId;
 	
 	@GeneratedValue
+	@Column(name="policy_no")
 	private int policyNo;
-	
+	@Column(name="season")
 	private String Season;
+	@Column(name="year")
 	private LocalDate year;
+	@Column(name="crop_name")
 	private String cropName;
+	@Column(name="sum_insured")
 	private int sumInsured;
+	@Column(name="area")
 	private int area;
+	@Column(name="insurance_company")
 	private String insuranceCompany;
+	@Column(name="name_of_insurance")
 	private String nameOfInsuree;
+	@Column(name="cause_of_loss")
 	private String causeOfLoss;
+	@Column(name="date_of_loss")
 	private LocalDate dateOfLoss;
+	@Column(name="claim_status")
 	private String claimStatus;
 	
 	@ManyToOne
-	@JoinColumn(name = "farmerId")
+	@JoinColumn(name = "farmer_Id")
 	Farmer farmers;
 
 	public int getInsuranceId() {

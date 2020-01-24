@@ -19,6 +19,8 @@ public class FarmerDaoImpl implements FarmerDao {
 
 	@Transactional
 	public int createFarmer(Farmer farmer) {
+		System.out.println(farmer);
+		//farmer=entityManager.merge(farmer);
 		entityManager.persist(farmer);
 		return 1;
 	}

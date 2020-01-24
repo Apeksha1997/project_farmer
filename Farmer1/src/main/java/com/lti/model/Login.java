@@ -1,20 +1,36 @@
 package com.lti.model;
+import java.util.List;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 @Component
 @Entity
-@Table(name = "TBL_KISAANLOGIN")
+@Table(name = "login")
 public class Login {
 	@Id
 	@GeneratedValue
+	@Column(name="user_Id")
 	private int userId;
+	@Column(name="email")
 	private String email;
+	@Column(name="password")
 	private String password;
 	
+	@OneToMany(mappedBy="login")
+	private List<Farmer> farmers;
+	
+	public List<Farmer> getFarmers() {
+		return farmers;
+	}
+	public void setFarmers(List<Farmer> farmers) {
+		this.farmers = farmers;
+	}
 	public int getUserId() {
 		return userId;
 	}
@@ -38,6 +54,13 @@ public class Login {
 		this.userId = userId;
 		this.email = email;
 		this.password = password;
+	}
+	public Login(int userId, String email, String password, List<Farmer> farmers) {
+		super();
+		this.userId = userId;
+		this.email = email;
+		this.password = password;
+		this.farmers = farmers;
 	}
 	public Login() {
 		super();

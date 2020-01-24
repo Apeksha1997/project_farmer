@@ -4,5 +4,5 @@ import com.lti.model.Farmer;
 
 public interface FarmerService {
 
-	public boolean addStuden(Farmer farmer);
+	public boolean addFarmer(Farmer farmer);
 }

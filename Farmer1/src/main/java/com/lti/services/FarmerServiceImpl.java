@@ -19,7 +19,7 @@ public class FarmerServiceImpl implements FarmerService {
 
 
 	@Transactional
-	public boolean addStuden(Farmer farmer) {
+	public boolean addFarmer(Farmer farmer) {
 		int result=dao.createFarmer(farmer);
 		if(result==1)
 			return true;

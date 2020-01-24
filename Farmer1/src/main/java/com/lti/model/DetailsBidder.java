@@ -2,6 +2,7 @@ package com.lti.model;
 
 
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,25 +11,37 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TBL_KISAANDETAILSBIDDER")
+@Table(name = "DETAILSBIDDER")
 public class DetailsBidder {
 
 	@Id
 	@GeneratedValue
+	@Column(name="bidder_details_id")
 	private int bidderDetailsId;
+	@Column(name="bidder_address_line1")
+	
 	private String bidderAddressLine1;
+	@Column(name="bidder_address_line2")
 	private String bidderAddressLine2;
+	@Column(name="bidder_city")
 	private String bidderCity;
+	@Column(name="bidder_state")
 	private String bidderState;
+	@Column(name="bidder_pincode")
 	private int bidderPinCode;
+	@Column(name="bidder_account_no")
 	private int bidderAccountNo;
+	@Column(name="bidder_ifsc_code")
 	private String bidderIFSCCode;
+	@Column(name="bidder_aadhaar")
 	private String bidderAadhaar;
+	@Column(name="bidder_pan")
 	private String bidderPan;
+	@Column(name="bidder_trader_license")
 	private String bidderTraderLicense;
 	
 	@OneToOne
-	@JoinColumn(name = "bidderId")
+	@JoinColumn(name = "bidder_Id")
 	Bidder bidderDetails;
 
 	public int getBidderDetailsId() {

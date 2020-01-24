@@ -9,14 +9,16 @@ import javax.persistence.Table;
 import org.springframework.stereotype.Component;
 @Component
 @Entity
-@Table(name = "TBL_KISAANADMIN")
+@Table(name = "ADMIN")
 public class Admin {
 	
 	@Id
 	@GeneratedValue
+	@Column(name="admin_id")
 	private int adminId;
-	@Column(unique=true)
+	@Column(name="admin_email",unique=true)
 	private String adminEmail;
+	@Column(name="admin_password")
 	private String adminPassword;
 	
 	public int getAdminId() {

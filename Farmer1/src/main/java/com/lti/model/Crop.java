@@ -5,6 +5,7 @@ package com.lti.model;
 import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,26 +16,38 @@ import javax.persistence.Table;
 import org.springframework.stereotype.Component;
 @Component
 @Entity
-@Table(name = "TBL_KISAANCROP")
+@Table(name = "CROP")
 public class Crop {
 
 	@Id
 	@GeneratedValue
+	@Column(name="crop_Id")
 	private int cropId;
+	@Column(name="crop_type")
 	private String cropType;
+	@Column(name="crop_name")
 	private String cropName;
+	@Column(name="crop_fertilizer_type")
 	private String cropFertilizerType;
+	@Column(name="crop_quantity")
 	private int cropQuantity;
+	@Column(name="crop_soil_ph_certificate")
 	private String cropSoilPHCertificate;
+	@Column(name="crop_last_date_for_bid")
 	private LocalDate cropLastDateForBid;
+	@Column(name="crop_basic_price")
 	private int cropBasicPrice;
+	@Column(name="crop_sold_price")
 	private int cropSoldPrice;
+	@Column(name="crop_current_bid")
 	private int cropCurrentBid;
+	@Column(name="crop_active_status")
 	private String cropActiveStatus;
+	@Column(name="crop_sold_status")
 	private String cropSoldStatus;
 	
 	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name = "farmerId")
+	@JoinColumn(name = "farmer_Id")
 	Farmer farmerCrop;
 	
 	public int getCropId() {

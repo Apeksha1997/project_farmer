@@ -1,6 +1,7 @@
 package com.lti.model;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,18 +12,20 @@ import javax.persistence.Table;
 import org.springframework.stereotype.Component;
 @Component
 @Entity
-@Table(name = "TBL_KISAANBIDDER")
+@Table(name = "BIDDER")
 public class Bidder {
 
 	@Id
 	@GeneratedValue
+	@Column(name="bidder_Id")
 	private int bidderId;
-	
+	@Column(name="bidder_full_name")
 	private String bidderFullName;
+	@Column(name="bidder_contact")
 	private String bidderContact;
 	
 	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name = "userid")
+	@JoinColumn(name = "user_id")
 	private Login login;
 	
 	@OneToOne(mappedBy = "bidderDetails",cascade = CascadeType.ALL)
