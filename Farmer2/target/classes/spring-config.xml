@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+	
+	<bean id="farmer" class="com.lti.model.Farmer" scope="singleton" autowire="byName">
+	<property name="farmerId" value="1"/>
+	<property name="farmerFullName" value="Akshatha"/>
+	<property name="farmerContact" value="100"/>
+	 <property name="login" ref="login"></property> 
+	 
+	</bean>
+	<bean id="DETAILSFARMER" class="com.lti.model.DeatilsFarmer">
+	<property name="farmerDetailsId" value="1"></property>
+	<property name="farmerAddressLine1" value=""></property>
+	<property name="farmerAddressLine2" value=""></property>
+	<property name="farmerCity" value=""></property>
+	<property name="farmerStatez" value=""></property>
+	<property name=" farmerPinCode" value=""></property>
+	<property name="farmerLandArea" value=""></property>
+	<property name="farmerLandAddress" value=""></property>
+	<property name="farmerLandPinCode" value=""></property>
+	<property name="farmerAccountNo" value=""></property>
+	<property name="farmerIFSCCode" value=""></property>
+	<property name=" farmerAadhaar" value=""></property>
+	<property name="farmerPan" value=""></property>
+	<property name="farmerCertificate" value=""></property>
+	
+	</bean> 
+</beans>
