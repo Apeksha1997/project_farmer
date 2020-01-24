@@ -9,7 +9,7 @@ package com.lti.controller;
 	import org.springframework.web.bind.annotation.RequestMethod;
 	import org.springframework.web.bind.annotation.RestController;
 
-	import com.lti.model.Farmer;
+import com.lti.model.DetailsFarmer;
 import com.lti.services.FarmerService;
 
 
@@ -20,11 +20,13 @@ import com.lti.services.FarmerService;
 	public class FarmerRestController {
 		@Autowired
 		private FarmerService service;
-		// http://localhost:9097/farmer
-		@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-		public ResponseEntity<String> addFarmer(@RequestBody Farmer farmer) {
+		
+		//http:localhost//9097/farmer/detailsFarmer
+		@Autowired
+		@RequestMapping(path="detailsFarmer", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+		public ResponseEntity<String> addFarmerdetails(@RequestBody DetailsFarmer farmer) {
 			ResponseEntity<String> response;
-			boolean result=service.addFarmer(farmer);
+			boolean result=service.addFarmerDetails(farmer);
 			if(result){
 				response=new ResponseEntity<String>("farmer is added.",HttpStatus.CREATED);
 			}else{

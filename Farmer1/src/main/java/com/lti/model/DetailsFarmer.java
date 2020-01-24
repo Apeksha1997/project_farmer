@@ -10,12 +10,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
+@Component("detailsFarmer")
 @Entity
 @Table(name = "DETAILSFARMER")
+@RequestMapping(path = "detailsFarmer")
 public class DetailsFarmer {
 
 	@Id
-	@GeneratedValue
+//	@GeneratedValue
 	@Column(name="farmer_details_id")
 	private int farmerDetailsId;
 	@Column(name="farmer_address_line1")
@@ -42,6 +46,7 @@ public class DetailsFarmer {
 	private String farmerAadhaar;
 	@Column(name="farmer_pan")
 	private String farmerPan;
+	@Column(name="farmer_certificate")
 	private String farmerCertificate;
 	
 	@ManyToOne

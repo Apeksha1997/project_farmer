@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lti.dao.FarmerDao;
+import com.lti.model.DetailsFarmer;
 import com.lti.model.Farmer;
 @Service("service")
 public class FarmerServiceImpl implements FarmerService {
@@ -26,5 +27,12 @@ public class FarmerServiceImpl implements FarmerService {
 		else		
 		return false;
 	}
+	@Override
+	public boolean addFarmerDetails(DetailsFarmer farmer) {
+		int result=dao.detailsFarmer(farmer);
+		if(result==1)
+			return true;
+		else		
+		return false;	}
 	
 }
