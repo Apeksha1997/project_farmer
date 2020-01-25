@@ -1,0 +1,125 @@
+create table Admin
+(
+admin_id varchar(10)primary key,
+admin_email varchar(30) unique,
+admin_password varchar(10) not null
+);
+
+
+
+create table Login
+( user_Id varchar(15) primary key,
+email varchar(25) unique,
+password varchar(10) 
+);
+
+
+
+
+create table Crop(
+crop_Id varchar2(10) primary key,
+crop_Name varchar2(20) ,
+crop_Type varchar2(20) ,
+crop_Fertilizer_Type varchar2(20) ,
+crop_Quantity number(10) ,
+crop_Soil_Ph_certificate number(3),
+crop_Last_Date_For_Bid date,
+crop_Basic_Price number(10),
+crop_Sold_Price number(10),
+crop_Current_Bid number(10),
+crop_Active_Status varchar2(10),
+crop_Sold_Status varchar2(10),
+farmer_Id varchar(10) references Farmer(farmer_Id) 
+);
+
+
+
+create table DetailsFarmer
+(
+famer_Id varchar(10) primary key,
+farmer_Address_Line1 varchar(25) not null,
+farmer_Address_Line2 varchar(25),
+farmer_City varchar(15) not null,
+farmer_State varchar(15) not null,
+farmer_Pincode number(10) not null,
+farmer_Land_Area number(15),
+farmer_Land_Address varchar(25) not null,
+farmer_Land_Pincode number(7) not null,
+farmer_Account_Number number(15) not null,
+farmer_Ifsc_Code varchar(10) not null,
+farmer_Aadhar number(15) ,
+farmer_Pan varchar(10),
+farmer_Certificate varchar(10)
+);
+
+
+
+
+create table Insurance
+(
+insurance_Id varchar2(19) primary key,
+policy_Number number(15) ,
+season varchar2(10) ,
+year date not null, 
+crop_Name varchar2(15) not null,
+sum_Insured varchar2(15),
+name_Of_Insurance varchar2(15) ,
+area number(3),
+insurance_Company varchar2(15) ,
+cause_Of_Loss varchar(18) ,
+date_Of_Loss date ,
+claim_Status varchar2(15) ,
+farmer_Id varchar(10)  references Farmer(farmer_Id) 
+);
+
+
+
+
+
+
+
+create table Bidder
+(bidder_Id varchar(20) primary key,
+bidder_Full_Name varchar(30),
+bidder_Contact_Details number(10),
+user_Id varchar(20) references login(user_Id) 
+);
+
+create table Farmer
+(farmer_Id varchar(20) primary key,
+farmer_Full_Name varchar(30),
+farmer_Contact_Details number(10) not null,
+user_Id varchar(20) references login(user_Id),
+farmer_Details varchar(40) references detailsfarmer(famer_Details_Id)
+);
+
+
+create table BidDetails
+(bid_Id varchar2(20) primary key,
+bid_Amount number(20),
+bid_Status varchar(20),
+bidder_Id varchar(20) references bidder(bidder_Id) 
+);
+
+create table DetailsBidder
+(bidder_Details_Id varchar2(20) primary key,
+bidder_Address varchar2(20),
+bidder_City varchar2(20),
+bidder_State varchar2(20) ,
+bidder_Pincode number(6), 
+bidder_Account_No number(20),
+bidder_Ifsc_Code varchar2(15), 
+bidder_Aadhar number(20) ,
+bidder_Pan varchar2(20),
+bidder_Trader_License varchar2(20),
+bidder_Details varchar2(10) references BidDetails (bid_Id)
+);
+
+
+alter table Bid_Details add crop varchar2(20) references crop(crop_id);
+
+
+
+
+ALTER TABLE login
+MODIFY constraint password  ;
