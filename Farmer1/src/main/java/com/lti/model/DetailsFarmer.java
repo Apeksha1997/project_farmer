@@ -4,54 +4,71 @@ package com.lti.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Component("detailsFarmer")
 @Entity
 @Table(name = "DETAILSFARMER")
-@RequestMapping(path = "detailsFarmer")
+//@RequestMapping(path = "detailsFarmer")
 public class DetailsFarmer {
 
 	@Id
 //	@GeneratedValue
-	@Column(name="farmer_details_id")
+	@Column(name="famer_id")
 	private int farmerDetailsId;
+	
 	@Column(name="farmer_address_line1")
 	private String farmerAddressLine1;
+	
 	@Column(name="farmer_address_line2")
 	private String farmerAddressLine2;
+	
 	@Column(name="farmer_city")
 	private String farmerCity;
+	
 	@Column(name="farmer_state")
 	private String farmerState;
+	
 	@Column(name="farmer_pincode")
 	private int farmerPinCode;
+	
 	@Column(name="farmer_land_area")
 	private int farmerLandArea;
+	
 	@Column(name="farmer_land_address")
 	private String farmerLandAddress;
+	
 	@Column(name="farmer_land_pincode")
 	private int farmerLandPinCode;
-	@Column(name="farmer_account_no")
+	
+	@Column(name="farmer_account_number")
 	private int farmerAccountNo;
+	
 	@Column(name="farmer_ifsc_code")
 	private String farmerIFSCCode;
-	@Column(name="farmer_aadhaar")
+	
+	@Column(name="farmer_aadhar")
 	private String farmerAadhaar;
+	
 	@Column(name="farmer_pan")
 	private String farmerPan;
-	@Column(name="farmer_certificate")
-	private String farmerCertificate;
 	
-	@ManyToOne
-	@JoinColumn(name = "farmer_Id")
-	Farmer farmerDetails;
+	@Column(name="farmer_certificate")
+	private String farmerCertificate; 
+	
+
+	
+//	//@JsonManagedReference
+//	@OneToOne
+//	@JoinColumn(name = "FARMER_DETAILS_ID")
+//	private Farmer farmerDetails;
 
 	public int getFarmerDetailsId() {
 		return farmerDetailsId;
@@ -165,13 +182,13 @@ public class DetailsFarmer {
 		this.farmerCertificate = farmerCertificate;
 	}
 
-	public Farmer getFarmerDetails() {
-		return farmerDetails;
-	}
-
-	public void setFarmerDetails(Farmer farmerDetails) {
-		this.farmerDetails = farmerDetails;
-	}
+//	public Farmer getFarmerDetails() {
+//		return farmerDetails;
+//	}
+//
+//	public void setFarmerDetails(Farmer farmerDetails) {
+//		this.farmerDetails = farmerDetails;
+//	}
 
 	@Override
 	public String toString() {
@@ -181,7 +198,7 @@ public class DetailsFarmer {
 				+ ", farmerLandAddress=" + farmerLandAddress + ", farmerLandPinCode=" + farmerLandPinCode
 				+ ", farmerAccountNo=" + farmerAccountNo + ", farmerIFSCCode=" + farmerIFSCCode + ", farmerAadhaar="
 				+ farmerAadhaar + ", farmerPan=" + farmerPan + ", farmerCertificate=" + farmerCertificate
-				+ ", farmerDetails=" + farmerDetails + "]";
+				+ ", farmerDetails=" + "]";
 	}
 	
 	

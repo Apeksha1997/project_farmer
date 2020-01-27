@@ -7,7 +7,7 @@ import com.lti.model.Farmer;
 
 
 public interface FarmerDao {
-	public int createFarmer(Farmer farmer);
+	//public int createFarmer(Farmer farmer);
 	public int detailsFarmer(DetailsFarmer  farmer);
 	/*public Student readStudentByRollNumber(int rollNumber);
 	public int deleteStudentByRollNumber(int rollNumber);

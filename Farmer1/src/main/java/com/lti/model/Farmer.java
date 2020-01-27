@@ -12,6 +12,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
+
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 @Component
 @Entity
 //@SequenceGenerator(name="seq", sequenceName="farmer_seq")
@@ -19,7 +22,7 @@ import org.springframework.stereotype.Component;
 public class Farmer {
 
 	@Id
-	@GeneratedValue
+//	@GeneratedValue
 	@Column(name="farmer_Id")
 	private int farmerId;
 	@Column(name="farmer_Full_Name")
@@ -27,12 +30,13 @@ public class Farmer {
 	@Column(name="farmer_contact_details")
 	private String farmerContact;
 	
+	//@JsonBackReference
 	@ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_Id")
 	private Login login;
-	
-	@OneToOne(mappedBy = "farmerDetails",cascade = CascadeType.ALL)
-	DetailsFarmer detailsFarmer;
+//	
+//	@OneToOne(mappedBy = "farmerDetails",cascade = CascadeType.ALL)
+//	private DetailsFarmer detailsFarmer;
 
 	public int getFarmerId() {
 		return farmerId;
@@ -65,14 +69,14 @@ public class Farmer {
 	public void setLogin(Login login) {
 		this.login = login;
 	}
-
-	public DetailsFarmer getDetailsFarmer() {
-		return detailsFarmer;
-	}
-
-	public void setDetailsFarmer(DetailsFarmer detailsFarmer) {
-		this.detailsFarmer = detailsFarmer;
-	}
+//
+//	public DetailsFarmer getDetailsFarmer() {
+//		return detailsFarmer;
+//	}
+//
+//	public void setDetailsFarmer(DetailsFarmer detailsFarmer) {
+//		this.detailsFarmer = detailsFarmer;
+//	}
 
 	public Farmer() {
 		super();
@@ -85,13 +89,13 @@ public class Farmer {
 		this.farmerFullName = farmerFullName;
 		this.farmerContact = farmerContact;
 		this.login = login;
-		this.detailsFarmer = detailsFarmer;
+//		this.detailsFarmer = detailsFarmer;
 	}
 
 	@Override
 	public String toString() {
 		return "Farmer [farmerId=" + farmerId + ", farmerFullName=" + farmerFullName + ", farmerContact="
-				+ farmerContact + ", login=" + login + ", detailsFarmer=" + detailsFarmer + "]";
+				+ farmerContact + ", login=" + login + ", detailsFarmer=" + "]";
 	}
 	
 

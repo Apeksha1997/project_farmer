@@ -14,25 +14,27 @@ public class FarmerServiceImpl implements FarmerService {
 	public FarmerDao getDao() {
 		return dao;
 	}
+
 	public void setDao(FarmerDao dao) {
 		this.dao = dao;
 	}
 
-
-	@Transactional
-	public boolean addFarmer(Farmer farmer) {
-		int result=dao.createFarmer(farmer);
-		if(result==1)
-			return true;
-		else		
-		return false;
-	}
+//
+//	@Transactional
+//	public boolean addFarmer(Farmer farmer) {
+//		int result=dao.createFarmer(farmer);
+//		if(result==1)
+//			return true;
+//		else		
+//		return false;
+//	}
 	@Override
 	public boolean addFarmerDetails(DetailsFarmer farmer) {
 		int result=dao.detailsFarmer(farmer);
 		if(result==1)
 			return true;
 		else		
-		return false;	}
+		return false;	
+		}
 	
 }

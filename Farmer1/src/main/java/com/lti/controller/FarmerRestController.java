@@ -22,15 +22,15 @@ import com.lti.services.FarmerService;
 		private FarmerService service;
 		
 		//http:localhost//9097/farmer/detailsFarmer
-		@Autowired
+		//@Autowired
 		@RequestMapping(path="detailsFarmer", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<String> addFarmerdetails(@RequestBody DetailsFarmer farmer) {
 			ResponseEntity<String> response;
 			boolean result=service.addFarmerDetails(farmer);
 			if(result){
-				response=new ResponseEntity<String>("farmer is added.",HttpStatus.CREATED);
+				response=new ResponseEntity<String>("detalis of farmer is added.",HttpStatus.CREATED);
 			}else{
-				response=new ResponseEntity<String>("farmer is not added",HttpStatus.INTERNAL_SERVER_ERROR);
+				response=new ResponseEntity<String>(" details of farmer is not added.",HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			return response;
 		}

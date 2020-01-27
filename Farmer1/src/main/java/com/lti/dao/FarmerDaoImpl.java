@@ -17,14 +17,14 @@ public class FarmerDaoImpl implements FarmerDao {
 	
 	public FarmerDaoImpl() {
 	}
-
-	@Transactional
-	public int createFarmer(Farmer farmer) {
-		System.out.println(farmer);
-		//farmer=entityManager.merge(farmer);
-		entityManager.persist(farmer);
-		return 1;
-	}
+//
+//	@Transactional
+//	public int createFarmer(Farmer farmer) {
+//		System.out.println(farmer);
+//		//farmer=entityManager.merge(farmer);
+//		entityManager.persist(farmer);
+//		return 1;
+//	}
 
 	@Override
 	@Transactional
