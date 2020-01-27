@@ -1,0 +1,440 @@
+---------------------------------------Main.java
+package com.lti;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class Main {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Main.class, args);	
+	}
+}
+------------------------------------com.lti.controller-------
+---------------------------StudentRestController.java
+package com.lti.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.lti.model.Student;
+import com.lti.service.StudentService;
+
+
+@RestController
+@RequestMapping(path="students")
+@CrossOrigin
+public class StudentRestController {
+	@Autowired
+	private StudentService service;
+	
+	//http://localhost:9094/students
+	@RequestMapping(method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<Student> findAllStudent(){
+		List<Student> student=service.findAllStudents();
+		return student;
+	}
+	
+	//http://localhost:9094/students/100
+	@RequestMapping(path="{rollno}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public Student findStudentByRollNumber(@PathVariable("rollno") int rollNumber){
+		Student student=service.findStudentByRollNumber(rollNumber);
+		return student;
+	}
+	
+	//https://localhost:9095/students
+	@RequestMapping(method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
+	public void addStudent(@RequestBody Student student)
+	{
+		service.addStudent(student);
+	}
+}
+-------------------------------------------------
+--------------------com.lti.Dao
+--------------------StudentDao.java
+package com.lti.Dao;
+
+import java.util.List;
+
+import com.lti.model.Student;
+
+public interface StudentDao {
+	public int createStudent(Student student);
+	public Student readStudentByRollNumber(int rollNumber);
+	public int updateStudentByRollNumber(int rollNumber,Student student);
+	public int  deleteStudentByRollNumber(int rollNumber);
+	public List<Student> readAllStudents();
+	
+}
+-------------------------------Studentdaoimpl.java
+package com.lti.Dao;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.lti.model.Student;
+import com.lti.utils.JpaUtils;
+
+@Repository("dao")
+public class StudentDaoImpl implements StudentDao{
+    
+	private EntityManager entityManager;
+	public StudentDaoImpl(){
+		entityManager=JpaUtils.getEntityManager();
+		
+	}
+	@Override
+	public int createStudent(Student student) {
+		entityManager.getTransaction().begin();
+		entityManager.persist(student);
+		entityManager.getTransaction().commit();
+		return 1;
+	}
+
+	@Override
+	public Student readStudentByRollNumber(int rollNumber) {
+		
+		return entityManager.find(Student.class, rollNumber);
+	}
+
+	@Override
+	public int updateStudentByRollNumber(int rollNumber, Student student) {
+	
+		return 0;
+	}
+
+	@Override
+	public int deleteStudentByRollNumber(int rollNumber) {
+		
+		return deleteStudentByRollNumber(rollNumber);
+	}
+
+	@Override
+	public List<Student> readAllStudents() {
+		String jpql1="from Student";
+		TypedQuery<Student> tquery=entityManager.createQuery(jpql1,Student.class);
+		return tquery.getResultList();
+	}
+}
+----------------------------------------------
+-------------------com.lti.model
+---------------------Address.java
+package com.lti.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.lti.Dao.StudentDao;
+import com.lti.model.Student;
+@Service("service")	
+
+public class StudentServiceImpl implements StudentService{
+	@Autowired
+	private StudentDao dao;
+	@Override
+	public boolean addStudent(Student student) {
+		int result=dao.createStudent(student);
+		if(result==1)
+			return true;
+		else
+		return false;
+	}
+
+	@Override
+	public Student findStudentByRollNumber(int rollNumber) {
+		Student result= dao.readStudentByRollNumber(rollNumber);
+		return result;
+	}
+	public StudentDao getDao(){
+	return dao;
+	}
+	public void setDao (StudentDao dao){
+		this.dao=dao;
+		}
+
+	@Override
+	public int updateStudent(int rollNumber,Student student) {
+		return dao.updateStudentByRollNumber(rollNumber, student);
+	}
+
+	@Override
+	public int deleteStudent(int rollNumber) {
+		return dao.deleteStudentByRollNumber(rollNumber);
+	}
+	@Override
+	public List<Student> findAllStudents() {
+			return dao.readAllStudents();
+	}	
+}
+-----------------------------------------------------------
+------------------Student.java
+
+package com.lti.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+@Component("student")
+@Scope(scopeName="prototype")
+@Entity
+@Table(name="student")
+public class Student {
+	@Id
+	@Column(name="roll_number")
+	private int rollnumber;
+	@Column(name="student_name")
+	private String studentName;
+	@Column(name="student_score")
+	private double studentScore;
+	
+	
+	@Autowired
+	@OneToOne
+	@JoinColumn(name="address_id")
+	private Address address;//=new  Address();
+	
+	public Address getAddress() {
+		return address;
+	}
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+	public Student() {
+		System.out.println("---student---");
+		
+	}
+	public Student(int rollnumber, String studentName, double studentScore) {
+		super();
+		System.out.println("---student- parameterised--");
+		this.rollnumber = rollnumber;
+		this.studentName = studentName;
+		this.studentScore = studentScore;
+	}
+	public int getRollnumber() {
+		return rollnumber;
+	}
+	public void setRollnumber(int rollnumber) {
+		this.rollnumber = rollnumber;
+	}
+	public String getStudentName() {
+		return studentName;
+	}
+	public void setStudentName(String studentName) {
+		this.studentName = studentName;
+	}
+	public double getStudentScore() {
+		return studentScore;
+	}
+	public void setStudentScore(double studentScore) {
+		this.studentScore = studentScore;
+	}
+	@Override
+	public String toString() {
+		return "Student [rollnumber=" + rollnumber + ", studentName=" + studentName + ", studentScore=" + studentScore
+				+ "]";
+	}	
+}
+-------------------------------------------------
+-----------------------------com.lti.service
+--------------------------------StudentService.java
+package com.lti.service;
+
+import java.util.List;
+
+import com.lti.model.Student;
+
+public interface StudentService {
+	public boolean addStudent(Student student);
+	public Student findStudentByRollNumber(int rollNumber);
+	public int updateStudent(int rollNumber,Student student);
+	public int deleteStudent(int rollNumber);
+
+	public List<Student> findAllStudents();
+
+}
+-------------------------StudentService.java
+package com.lti.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.lti.Dao.StudentDao;
+import com.lti.model.Student;
+@Service("service")	
+
+public class StudentServiceImpl implements StudentService{
+	@Autowired
+	private StudentDao dao;
+	@Override
+	public boolean addStudent(Student student) {
+		int result=dao.createStudent(student);
+		if(result==1)
+			return true;
+		else
+		return false;
+	}
+
+	@Override
+	public Student findStudentByRollNumber(int rollNumber) {
+		Student result= dao.readStudentByRollNumber(rollNumber);
+		return result;
+	}
+	public StudentDao getDao(){
+	return dao;
+	}
+	public void setDao (StudentDao dao){
+		this.dao=dao;
+		}
+
+	@Override
+	public int updateStudent(int rollNumber,Student student) {
+		return dao.updateStudentByRollNumber(rollNumber, student);
+		
+	}
+	@Override
+	public int deleteStudent(int rollNumber) {
+		return dao.deleteStudentByRollNumber(rollNumber);	
+	}
+	@Override
+	public List<Student> findAllStudents() {
+	return dao.readAllStudents();
+	}	
+}
+-------------------------------------------------
+----------------------com.lti.utils
+----------------------application.properties
+server.port=9095
+
+spring.datasource.url=jdbc:oracle:thin:@localhost:1521:XE
+spring.datasource.username=hr
+spring.datasource.password=hr
+------------------------------------------------------
+---------------------pom.xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.lti</groupId>
+  <artifactId>SpringBootStarter</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+
+  <name>SpringBootStarterL</name>
+  <!-- FIXME change it to the project's website -->
+  <url>http://www.example.com</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+  </properties>
+
+  <dependencies>
+   <dependency>
+   <groupId>org.springframework.boot</groupId>
+   <artifactId>spring-boot-starter-web</artifactId>
+   <version>2.1.9.RELEASE</version>
+   </dependency>
+   
+    <dependency>
+   <groupId>org.springframework.boot</groupId>
+   <artifactId>spring-boot-starter-data-jpa</artifactId>
+   <version>2.1.9.RELEASE</version>
+   </dependency>
+   
+  </dependencies>
+
+  <build>
+    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+      <plugins>
+        <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
+        <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+        <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.0.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.0</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.22.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.0.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.5.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.8.2</version>
+        </plugin>
+        <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
+        <plugin>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.7.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-project-info-reports-plugin</artifactId>
+          <version>3.0.0</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+</project>
+------------------------------------------------------------------------------
+-----------------------------META-INF----->persistance.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+                      http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+  version="2.0">
+ 	<persistence-unit name="JPA_PU">
+ 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+ 		<properties>
+ 			<property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:XE"/>
+ 			<property name="javax.persistence.jdbc.driver" value="oracle.jdbc.driver.OracleDriver"/>
+ 			<property name="javax.persistence.jdbc.user" value="hr"/>
+ 			<property name="javax.persistence.jdbc.password" value="hr"/> 	
+ 			<property name="hibernate.show_sql" value="true"/> 	
+ 							
+		</properties>
+ 	</persistence-unit>
+ </persistence>
+
